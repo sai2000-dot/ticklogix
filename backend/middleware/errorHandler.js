@@ -1,0 +1,21 @@
+module.exports =(err, req, res, next) => {
+    console.error(`[ERROR] ${req.method} ${req.path}`,err.message);
+
+    if(err.name === 'ValidationError') {
+        const messages = Object.values(err.errors).map(e => e.message);
+        return res.status(400).json({error: messages.join(', ')});
+    }
+
+    if(err.code === 11000) {
+        const field = Object.keys(err.keyValue)[0];
+        return res.status(400).json({ error: `${field} already exists` });
+    }
+
+    if (err.name === 'JsonWebTokenError') {
+        return res.status(403).json({ error: 'Invalid token'});
+    }
+
+    res.status(err.status || 500).json({
+         error: err.message || 'Internal server error',
+    });
+};
