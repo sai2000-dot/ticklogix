@@ -60,6 +60,20 @@ export default function Layout({ children }) {
           >
             Invoices
           </NavLink>
+         {(user?.role === 'manager' || user?.role === 'admin') && (
+            <NavLink
+              to="/employees"
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'bg-indigo-50 text-indigo-600'
+                    : 'text-gray-600 hover:bg-gray-50'
+                }`
+              }
+            >
+              Employees
+            </NavLink>
+          )}
         </nav>
 
         <div className="p-4 border-t border-gray-200">
@@ -90,4 +104,4 @@ export default function Layout({ children }) {
       </main>
     </div>
   );
-}
+} 

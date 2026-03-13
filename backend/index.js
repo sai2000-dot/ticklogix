@@ -11,6 +11,8 @@ const authRoutes      = require('./routes/auth');
 const timesheetRoutes = require('./routes/timesheets');
 const invoiceRoutes   = require('./routes/invoices');
 const dashboardRoutes = require('./routes/dashboard');
+const userRoutes      = require('./routes/users');
+
 
 connectDB();
 
@@ -28,6 +30,7 @@ app.use('/api/auth',       authRoutes);
 app.use('/api/timesheets', timesheetRoutes);
 app.use('/api/invoices',   invoiceRoutes);
 app.use('/api/dashboard',  dashboardRoutes);
+app.use('/api/users',      userRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({ error: `Route ${req.method} ${req.path} not found` });

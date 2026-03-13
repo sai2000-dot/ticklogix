@@ -7,6 +7,7 @@ import LoginPage       from './pages/LoginPage';
 import Dashboard       from './pages/Dashboard';
 import Timesheets      from './pages/Timesheets';
 import Invoices        from './pages/Invoices';
+import Employees       from './pages/Employees';
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
           } />
           <Route path="/invoices" element={
             <PrivateRoute><Layout><Invoices /></Layout></PrivateRoute>
+          } />
+          <Route path="/employees" element={
+            <PrivateRoute><Layout><Employees /></Layout></PrivateRoute>
           } />
         </Routes>
       </Router>
