@@ -37,17 +37,63 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
+  const loginWithToken = async (token) => {
+    localStorage.setItem('authToken', token);
+    try {
+      const res = await API.get('/auth/me');
+      setUser(res.data);
+      localStorage.setItem('userRole', res.data.role);
+    } catch {
+      localStorage.removeItem('authToken');
+    }
+  };
+
+  // ── Trial / Subscription helpers ──────────────────────────────────────
+
+  const getTrialDaysLeft = () => {
+    if (!user) return 0;
+    if (user.subscriptionStatus === 'active') return null; // not on trial
+    const start = new Date(user.trialStartDate || user.createdAt || Date.now());
+    const diffDays = Math.floor((Date.now() - start.getTime()) / (1000 * 60 * 60 * 24));
+    return Math.max(0, 7 - diffDays);
+  };
+
+  const isTrialExpired = () => {
+    if (!user) return false;
+    if (user.subscriptionStatus === 'active') return false;
+    return getTrialDaysLeft() === 0;
+  };
+
+  const hasAccess = () => {
+    if (!user) return false;
+    if (user.subscriptionStatus === 'active') return true;
+    return getTrialDaysLeft() > 0;
+  };
+
+  const refreshUser = async () => {
+    try {
+      const res = await API.get('/auth/me');
+      setUser(res.data);
+    } catch { /* silent */ }
+  };
+
   const value = {
     user,
     loading,
     login,
     logout,
-    isAuthenticated: Boolean(user),
-    isEmployee:  user?.role === 'employee',
-    isManager:   user?.role === 'manager',
-    isAdmin:     user?.role === 'admin',
-    canApprove:  user?.role === 'manager' || user?.role === 'admin',
-    canGenerate: user?.role === 'manager' || user?.role === 'admin',
+    loginWithToken,
+    refreshUser,
+    isAuthenticated:  Boolean(user),
+    isEmployee:       user?.role === 'employee',
+    isManager:        user?.role === 'manager',
+    isAdmin:          user?.role === 'admin',
+    canApprove:       user?.role === 'manager' || user?.role === 'admin',
+    canManageInvoices:user?.role === 'admin',
+    canManageEmployees:user?.role === 'admin',
+    getTrialDaysLeft,
+    isTrialExpired,
+    hasAccess,
   };
 
   return (

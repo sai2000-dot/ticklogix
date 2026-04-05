@@ -8,7 +8,7 @@ router.use(auth);
 
 router.get('/',              ctrl.getAll);
 router.get('/:id',           ctrl.getOne);
-router.post('/',             rbac('manager', 'admin'), ctrl.create);
-router.patch('/:id/status',  rbac('manager', 'admin'), ctrl.updateStatus);
+router.post('/',             rbac('admin'), ctrl.create);
+router.patch('/:id/status',  rbac('admin'), ctrl.updateStatus);
 
 module.exports = router;

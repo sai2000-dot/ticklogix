@@ -14,6 +14,13 @@ const userSchema = new mongoose.Schema(
         },
         department: { type: String, default: ''},
         isActive:   { type: Boolean, default: true }, 
+        authProvider: { type: String, enum: ['local', 'google', 'microsoft'], default: 'local' },
+        googleId:     { type: String },
+        microsoftId:  { type: String },
+        trialStartDate:     { type: Date, default: Date.now },
+        subscriptionPlan:   { type: String, enum: ['trial', 'starter', 'professional', 'business', 'enterprise'], default: 'trial' },
+        subscriptionStatus: { type: String, enum: ['trial', 'active', 'expired', 'cancelled'], default: 'trial' },
+        subscriptionExpiry: { type: Date, default: null },
     },
     {
         timestamps: true,

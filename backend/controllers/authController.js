@@ -24,11 +24,15 @@ exports.register = async (req, res, next) => {
     res.status(201).json({
       token,
       user: {
-        id:        user._id,
-        username:  user.username,
-        role:      user.role,
-        firstName: user.firstName,
-        lastName:  user.lastName,
+        id:                 user._id,
+        username:           user.username,
+        role:               user.role,
+        firstName:          user.firstName,
+        lastName:           user.lastName,
+        trialStartDate:     user.trialStartDate,
+        subscriptionPlan:   user.subscriptionPlan,
+        subscriptionStatus: user.subscriptionStatus,
+        subscriptionExpiry: user.subscriptionExpiry,
       },
     });
   } catch (err) {
@@ -55,11 +59,15 @@ exports.login = async (req, res, next) => {
     res.json({
       token,
       user: {
-        id:        user._id,
-        username:  user.username,
-        role:      user.role,
-        firstName: user.firstName,
-        lastName:  user.lastName,
+        id:                 user._id,
+        username:           user.username,
+        role:               user.role,
+        firstName:          user.firstName,
+        lastName:           user.lastName,
+        trialStartDate:     user.trialStartDate,
+        subscriptionPlan:   user.subscriptionPlan,
+        subscriptionStatus: user.subscriptionStatus,
+        subscriptionExpiry: user.subscriptionExpiry,
       },
     });
   } catch (err) {
@@ -69,12 +77,16 @@ exports.login = async (req, res, next) => {
 
 exports.getMe = async (req, res) => {
   res.json({
-    id:         req.user._id,
-    username:   req.user.username,
-    firstName:  req.user.firstName,
-    lastName:   req.user.lastName,
-    email:      req.user.email,
-    role:       req.user.role,
-    department: req.user.department,
+    id:                 req.user._id,
+    username:           req.user.username,
+    firstName:          req.user.firstName,
+    lastName:           req.user.lastName,
+    email:              req.user.email,
+    role:               req.user.role,
+    department:         req.user.department,
+    trialStartDate:     req.user.trialStartDate,
+    subscriptionPlan:   req.user.subscriptionPlan,
+    subscriptionStatus: req.user.subscriptionStatus,
+    subscriptionExpiry: req.user.subscriptionExpiry,
   });
 };
